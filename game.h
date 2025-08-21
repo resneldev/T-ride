@@ -12,7 +12,7 @@
 void show_menu (char move[]);
 
 void initArea  (char gameArea[MAX_X][MAX_Y ],int *pX,int *pY);
-void Limite    (int x,int y,char gameArea[MAX_X][MAX_Y ]);
+void limite    (int x,int y,char gameArea[MAX_X][MAX_Y ]);
 
 void move_up   (int *p_X,int *p_Y,char GameArea[MAX_X ][MAX_Y]);
 void move_rigth(int *p_X,int *p_Y,char GameArea[MAX_X ][MAX_Y]);
