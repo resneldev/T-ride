@@ -1,6 +1,6 @@
 //---------directive---------
-# define Areagame_X 8
-# define Areagame_Y 8
+# define Areagame_X 10
+# define Areagame_Y 10
 
 # define compte_X (Areagame_X *2)-1
 # define compte_Y (Areagame_Y *2)-1
