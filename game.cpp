@@ -109,19 +109,16 @@ void move_up   (int *p_X,int *p_Y,char GameArea[MAX_X ][MAX_Y]){
 }
 //------------------------------------------------------------------
 void move_down (int *p_X,int *p_Y,char GameArea[MAX_X ][MAX_Y]){
- if(*p_X==compte_X-1){
-    (*p_X)--;
-    GameArea[*p_X][*p_Y]='T';
-    
+  if(*p_X == compte_X - 1){
+    // Already at the bottom boundary, do nothing or print a message if desired
+    GameArea[*p_X][*p_Y] = 'T';
   }
-   
-  else
-    GameArea[*p_X][*p_Y]=' ';
+  else {
+    GameArea[*p_X][*p_Y] = ' ';
     (*p_X)++;
-    GameArea[*p_X][*p_Y]='T'; 
-    initArea(GameArea,p_X,p_Y);
-
-  
+    GameArea[*p_X][*p_Y] = 'T';
+  }
+  initArea(GameArea, p_X, p_Y);
 }
 //--------------------------------------------------------
 void move_left (int *p_X,int *p_Y,char GameArea[MAX_X ][MAX_Y]){
