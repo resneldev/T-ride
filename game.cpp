@@ -2,35 +2,53 @@
 # include <stdlib.h>
 # include <string.h>
 # include "game.h"
+#include <conio.h>
+#include <time.h>
+
+#define NB_TRAPS 30
+
 //---------zone initialisation-----------
 void initArea(char gameArea[MAX_X][MAX_Y ],int *pX,int *pY){
-    int x,y;
-    
+    int x, y;
+    int traps[NB_TRAPS][2];
+
+    // Générer les positions aléatoires des pièges
+    for (int i = 0; i < NB_TRAPS; i++) {
+        traps[i][0] = 1 + rand() % (MAX_X - 2); // x
+        traps[i][1] = 1 + rand() % (MAX_Y - 2); // y
+    }
+
     printf("\n");
     cleaner(gameArea);
 
-    for (x=0; x < MAX_X ;x++){
-      for(y=0;y<MAX_Y ;y++){
-        
-        limite(x, y,gameArea);
-          
-        gameArea[*pX][*pY]='T';
-
-        if(y==0 && x>0){
-          printf("\n%c",gameArea[x][y]);
+    for (x = 0; x < MAX_X; x++) {
+        for (y = 0; y < MAX_Y; y++) {
+            limite(x, y, gameArea);
+            gameArea[*pX][*pY] = 'T';
+            // Placer les pièges
+            for (int i = 0; i < NB_TRAPS; i++) {
+                gameArea[traps[i][0]][traps[i][1]] = 'X';
+                if(traps[i][0] == *pX && traps[i][1] == *pY) {
+                    printf("You hit a trap at (%d, %d)! Game Over.\n", traps[i][0], traps[i][1]);
+                    gameArea[traps[i][0]][traps[i][1]] = 'X';
+                    exit(0); // End the game if the player falls into a trap
+                }
+                
+            }
+            if (y == 0 && x > 0) {
+                printf("\n%c", gameArea[x][y]);
+            } else {
+                printf("%c", gameArea[x][y]);
+            }
         }
-        else{
-           printf("%c",gameArea[x][y]);
-        } 
-      }
     }
-        printf("\n\n");
+    printf("\n\n");
 } 
 
 //--------------------Control system--------------------
 void control(void){
   int x=1,y=1;
-  char move[10];
+  char move;
   char GameArea[MAX_X][MAX_Y ]={0};
 
     
@@ -38,58 +56,65 @@ void control(void){
     
   show_menu(move);
     
-  while(strcmp(move,"stop")!=0){
-      
-    if (strcmp(move,"w")==0)
+ 
+    while (1)
     {
-      move_up(&x,&y,GameArea);
-      scanf("%s",move);
-    }
-
-    if (strcmp(move,"s")==0)
-    {
-      move_down(&x,&y,GameArea);
-      scanf("%s",move);
-    }
-
-    if (strcmp(move,"a")==0)
-    {
-      move_left(&x,&y,GameArea);
-      scanf("%s",move);
-    }
-
-    if (strcmp(move,"d")==0)
-    {
-      move_rigth (&x,&y,GameArea);
-      scanf("%s",move);
-    }
-
-      if (strcmp(move,"clear")==0)
-    {
-      goto_debut (GameArea,&x,&y);
-      scanf("%s",move);
-    }
-
-    if (strcmp(move,"w")!=0 && strcmp(move,"s")!=0 && strcmp(move,"a")!=0)
-    {
-      if (  strcmp(move,"d")!=0 && strcmp(move,"stop")!=0 && strcmp(move,"clear")!=0)
+      if (kbhit())  // Check if a key has been pressed
       {
-        printf("*****effectuer des mouvements correct!*****\n");
-        show_menu(move);
+             
+        move = getch(); // Read the pressed key without waiting for Enter
+        if (move == 'w')
+        {
+          move_up(&x, &y, GameArea);
+          
+        }
+
+        else if (move == 's')
+        {
+          move_down(&x, &y, GameArea);
+          
+        }
+
+        else if (move == 'a')
+        {
+          move_left(&x, &y, GameArea);
+         
+        }
+
+        else if (move == 'd')
+        {
+          move_rigth (&x, &y, GameArea);
+          
+        }
+
+        else if (move == 'c')
+        {
+          goto_debut (GameArea, &x, &y);
+          
+        }
+        else if (move == 'q' || move == 'Q')
+        {
+          printf("game stoped!\n");
+          break;
+        }
+        else
+        {
+          printf("*****make correct movements!*****\n");
+          show_menu(move);
+        }
       }
-      
+
     }
     
-  }  
-  printf("balade terminer\n");  
+  printf("ride finish\n");  
 }
 
 //------------menu----------------------
-void show_menu(char move[]){
-  printf("left\nright\nup\ndown\nstop:arreter le jeu\n");
-  printf("effectuer un mouvement!\n");
+void show_menu(char move){
+  printf("left\nright\nup\ndown\nstop:stop the game\n");
+  printf("make a move!\n");
   printf(">");
-  scanf("%s",move);
+  scanf("%c",move);
 }
 
 //-------------------------mouvenent----------------------------------
@@ -102,7 +127,7 @@ void move_up   (int *p_X,int *p_Y,char GameArea[MAX_X ][MAX_Y]){
   else {
     GameArea[*p_X][*p_Y] = ' ';
     (*p_X)--;
-    GameArea[*p_X][*p_Y] = 'T';
+    //GameArea[*p_X][*p_Y] = 'T';
   }
   initArea(GameArea, p_X, p_Y);
 
@@ -116,7 +141,7 @@ void move_down (int *p_X,int *p_Y,char GameArea[MAX_X ][MAX_Y]){
   else {
     GameArea[*p_X][*p_Y] = ' ';
     (*p_X)++;
-    GameArea[*p_X][*p_Y] = 'T';
+    //GameArea[*p_X][*p_Y] = 'T';
   }
   initArea(GameArea, p_X, p_Y);
 }
@@ -131,7 +156,7 @@ void move_left (int *p_X,int *p_Y,char GameArea[MAX_X ][MAX_Y]){
   else
     GameArea[*p_X][*p_Y]=' ';
     (*p_Y)--;
-    GameArea[*p_X][*p_Y]='T';
+    //GameArea[*p_X][*p_Y]='T';
     initArea(GameArea,p_X,p_Y);
 }
 //---------------------------------------------------------------
@@ -144,7 +169,7 @@ void move_rigth(int *p_X,int *p_Y,char GameArea[MAX_X ][MAX_Y]){
   else
     GameArea[*p_X][*p_Y]=' ';
     (*p_Y)++;
-    GameArea[*p_X][*p_Y]='T';
+    //GameArea[*p_X][*p_Y]='T';
     initArea(GameArea,p_X,p_Y);
 
 }

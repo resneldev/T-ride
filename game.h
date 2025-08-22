@@ -9,7 +9,7 @@
 # define MAX_Y Areagame_Y *2
 
 //--------prototype--------------
-void show_menu (char move[]);
+void show_menu (char move);
 
 void initArea  (char gameArea[MAX_X][MAX_Y ],int *pX,int *pY);
 void limite    (int x,int y,char gameArea[MAX_X][MAX_Y ]);
