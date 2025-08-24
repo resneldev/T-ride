@@ -11,41 +11,56 @@ static int health = 100;
 //---------zone initialisation-----------
 void initArea(char gameArea[MAX_X][MAX_Y ],int *pX,int *pY){
     int x, y;
+    
     // Generate random trap positions
     generateTraps();
 
     printf("\n");
     cleaner(gameArea);
 
-    for (x = 0; x < MAX_X; x++) {
-        for (y = 0; y < MAX_Y; y++) {
-            limite(x, y, gameArea);
-            gameArea[*pX][*pY] = 'T';
-            // Placer les pièges
-            for (int i = 0; i < NB_TRAPS; i++) {
-              gameArea[traps[i][0]][traps[i][1]] = 'X';
-              
-            }
 
-            if (y == 0 && x > 0) {
-                printf("\n%c", gameArea[x][y]);
-            } else {
-                printf("%c", gameArea[x][y]);
-            }
+
+    for (x = 0; x < MAX_X; x++) {
+      for (y = 0; y < MAX_Y; y++) {
+        limite(x, y, gameArea);
+        gameArea[*pX][*pY] = 'T';
+         // Place traps on the game area
+        for (int i = 0; i < NB_TRAPS; i++) {
+          gameArea[traps[i][0]][traps[i][1]] = 'X';
+          
+
+        }       
+        if (y == 0 && x > 0) {
+            printf("\n%c", gameArea[x][y]);
+        } else {
+            printf("%c", gameArea[x][y]);
         }
+      }
     }
+    printf("\n");
+    checkTrap(*pX, *pY); // Check if player is on a trap
     printf("\n\n");
 } 
 // Function to check if the player is on a trap
 void checkTrap(int x, int y) {
     for (int i = 0; i < NB_TRAPS; i++) {
         if (x == traps[i][0] && y == traps[i][1]) {
-            health -= 50;
-            printf("Trap! Health: %d\n", health);
-            if (health <= 0) {
-                printf("Game Over!\n");
-                exit(0);
-            }
+            health -= 20;
+            printf("-------------------------------------------\n");
+            printf("-------------------------------------------\n");
+            printf("         Trap! Health: %d\n", health);
+            printf("-------------------------------------------\n");
+            printf("-------------------------------------------\n");
+        if (health <= 0) {
+            printf("\n");
+            printf("**************************************************\n");
+            printf("*                                                *\n");
+            printf("*                   GAME OVER                    *\n");
+            printf("*                                                *\n");
+            printf("**************************************************\n");
+            printf("\n"); 
+            exit(0);
+        }
             break;
         }
     }
@@ -108,7 +123,7 @@ void move_up   (int *p_X,int *p_Y,char GameArea[MAX_X ][MAX_Y]){
     // Already at the top boundary, do nothing or print a message if desired
     GameArea[*p_X][*p_Y] = ' ';
     (*p_X)--;   
-    checkTrap(*p_X, *p_Y); // Check for traps after moving
+    //checkTrap(*p_X, *p_Y); // Check for traps after moving
   }
 
 }
@@ -116,11 +131,9 @@ void move_up   (int *p_X,int *p_Y,char GameArea[MAX_X ][MAX_Y]){
 void move_down (int *p_X,int *p_Y,char GameArea[MAX_X ][MAX_Y]){
   if(*p_X != compte_X - 1){
     // Already at the bottom boundary, do nothing or print a message if desired
-    GameArea[*p_X][*p_Y] = 'T';
     GameArea[*p_X][*p_Y] = ' ';
     (*p_X)++;
-    printf("ich bin hier\n");
-    checkTrap(*p_X, *p_Y); // Check for traps after moving
+    //checkTrap(*p_X, *p_Y); // Check for traps after moving
   }
   
 }
@@ -129,7 +142,7 @@ void move_left (int *p_X,int *p_Y,char GameArea[MAX_X ][MAX_Y]){
  if(*p_Y != 1){
     GameArea[*p_X][*p_Y]=' ';
     (*p_Y)--;
-    checkTrap(*p_X, *p_Y); // Check for traps after moving
+    //checkTrap(*p_X, *p_Y); // Check for traps after moving
   }
    
 
@@ -139,7 +152,7 @@ void move_rigth(int *p_X,int *p_Y,char GameArea[MAX_X ][MAX_Y]){
   if(*p_Y != (compte_Y-1)){
     GameArea[*p_X][*p_Y]=' ';
     (*p_Y)++;
-    checkTrap(*p_X, *p_Y); // Check for traps after moving
+    //checkTrap(*p_X, *p_Y); // Check for traps after moving
   }
 
 }
