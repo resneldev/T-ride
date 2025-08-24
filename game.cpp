@@ -2,8 +2,8 @@
 # include <stdlib.h>
 # include <string.h>
 # include "game.h"
-#include <conio.h>
-#include <time.h>
+# include <conio.h>
+# include <time.h>
 
 #define NB_TRAPS 30
 static int traps[NB_TRAPS][2];
@@ -46,11 +46,11 @@ void checkTrap(int x, int y) {
     for (int i = 0; i < NB_TRAPS; i++) {
         if (x == traps[i][0] && y == traps[i][1]) {
             health -= 20;
-            printf("-------------------------------------------\n");
-            printf("-------------------------------------------\n");
+            printf("--------------------------------------------------\n");
+            printf("--------------------------------------------------\n");
             printf("         Trap! Health: %d\n", health);
-            printf("-------------------------------------------\n");
-            printf("-------------------------------------------\n");
+            printf("--------------------------------------------------\n");
+            printf("--------------------------------------------------\n");
         if (health <= 0) {
             printf("\n");
             printf("**************************************************\n");
@@ -123,7 +123,7 @@ void move_up   (int *p_X,int *p_Y,char GameArea[MAX_X ][MAX_Y]){
     // Already at the top boundary, do nothing or print a message if desired
     GameArea[*p_X][*p_Y] = ' ';
     (*p_X)--;   
-    //checkTrap(*p_X, *p_Y); // Check for traps after moving
+    
   }
 
 }
@@ -133,7 +133,7 @@ void move_down (int *p_X,int *p_Y,char GameArea[MAX_X ][MAX_Y]){
     // Already at the bottom boundary, do nothing or print a message if desired
     GameArea[*p_X][*p_Y] = ' ';
     (*p_X)++;
-    //checkTrap(*p_X, *p_Y); // Check for traps after moving
+   
   }
   
 }
@@ -142,7 +142,7 @@ void move_left (int *p_X,int *p_Y,char GameArea[MAX_X ][MAX_Y]){
  if(*p_Y != 1){
     GameArea[*p_X][*p_Y]=' ';
     (*p_Y)--;
-    //checkTrap(*p_X, *p_Y); // Check for traps after moving
+    
   }
    
 
@@ -152,7 +152,7 @@ void move_rigth(int *p_X,int *p_Y,char GameArea[MAX_X ][MAX_Y]){
   if(*p_Y != (compte_Y-1)){
     GameArea[*p_X][*p_Y]=' ';
     (*p_Y)++;
-    //checkTrap(*p_X, *p_Y); // Check for traps after moving
+    
   }
 
 }
